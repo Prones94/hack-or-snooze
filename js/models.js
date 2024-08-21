@@ -89,6 +89,23 @@ class StoryList {
 
     return newStory
   }
+
+  async removeStory(user, storyId){
+    const token = user.loginToken
+
+    // Send a DELETE request to the API
+    await axios({
+      method: "DELETE",
+      url: `${BASE_URL}/stories/${storyId}`,
+      data: { token }
+    })
+
+    // Remove the story from the storyList
+    this.stories = this.stories.filter(story => storyId !== storyId)
+
+    // Remove the story from the user's own stories
+    user.ownStories = user.ownStories.filter(story => story.storyId !== storyId)
+  }
 }
 
 

@@ -1,5 +1,4 @@
 /* Lists of stories */
-
 .stories-list {
   margin: 20px 5px;
 }
@@ -8,6 +7,7 @@
   color: gray;
   font-size: 0.8rem;
   margin: 10px 0;
+  border-bottom: 2px solid lightgray;
 }
 
 #stories-loading-msg {
@@ -16,9 +16,7 @@
   margin: 20px 30px;
 }
 
-
 /* Individual stories */
-
 .story-link {
   color: black;
   font-size: 0.85rem;
@@ -31,9 +29,20 @@
 }
 
 .story-author {
-  margin-left: 2em;
+  margin: 30px 0;
+  color: green;
 }
 
 .story-user {
   display: block;
+  color: orange;
+}
+
+.story-container {
+  height: 5em;
+}
+
+.story-container li {
+  display: flex;
+  border-bottom: 2px solid black;
 }

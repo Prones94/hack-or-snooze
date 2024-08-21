@@ -24,9 +24,12 @@ function generateStoryMarkup(story) {
   const isFavorite = currentUser.isFavorite(story)
   const starType = isFavorite ? "fas" : "far" // Sollid star if favorite, otherwise regular star
   const hostName = story.getHostName();
+  const isOwnStory = currentUser && currentUser.username === story.username
+  const deleteBtn = isOwnStory ? '<span class="trash-can"><i class="fas fa-trash-alt"></i></span>' : ''
 
   return $(`
-      <li id="${story.storyId}">
+      <li id="${story.storyId}" class="story-container">
+        ${deleteBtn}
         <span class="star">
           <i class="${starType} fa-star"></i>
         </span>
@@ -34,6 +37,7 @@ function generateStoryMarkup(story) {
           ${story.title}
         </a>
         <small class="story-hostname">(${hostName})</small>
+        <br/>
         <small class="story-author">by ${story.author}</small>
         <small class="story-user">posted by ${story.username}</small>
       </li>
@@ -56,6 +60,22 @@ function putStoriesOnPage() {
   $allStoriesList.show();
 }
 
+/** Handle deletion of user's own stories */
+$allStoriesList.on("click", ".trash-can", async function(evt){
+  console.debug("Delete story");
+
+  // Get the story ID from the clicked element's parent <li> tag
+  const $closestLi = $(evt.target).closest("li")
+  const storyId = $closestLi.attr("id")
+
+  // Call the removeStory method to delete the story
+  await storyList.removeStory(currentUser, storyId)
+
+  // Remove the story from the DOM
+  $closestLi.remove()
+})
+
+
 /** Handle favorite/unfavorite clicks */
 $allStoriesList.on("click", ".star", async function(evt){
   console.debug("Favorite/unfavorite story");
@@ -76,7 +96,6 @@ $allStoriesList.on("click", ".star", async function(evt){
     $(evt.target).removeClass("far").addClass("fas") // solid star
   }
 })
-
 
 async function submitNewStory(evt) {
   console.debug("submitNewStory",evt);

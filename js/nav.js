@@ -60,6 +60,23 @@ function navFavoriteClick(evt){
 }
 $navFavorites.on("click", navFavoriteClick)
 
+/** Show user's own stories when clicking on "my stories" */
+function navMyStoriesClick(evt){
+  console.debug(object);
+  hidePageComponents()
+
+  // Empty the current stories list and rebuild it with the user's own stories
+  $allStoriesList.empty()
+
+  for (const story of currentUser.ownStories) {
+    const $story = generateStoryMarkup(story)
+    $allStoriesList.append($story)
+  }
+  $allStoriesList.show()
+}
+// add event listener for "my stories" link
+$navMyStories.on("click", navMyStoriesClick)
+
 
 
 
