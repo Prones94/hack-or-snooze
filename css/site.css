@@ -1,8 +1,10 @@
 /* General typography */
+
 body {
   font-family: Arimo, sans-serif;
   margin: 8px 7.5vw;
-  background: linear-gradient(135deg, #a8c0ff, #fbc2eb);
+  height: 100vh;
+  background-image: radial-gradient(circle, rgb(238, 174, 202) 0%, rgb(148, 187, 233) 100%);
 }
 
 h1 {
@@ -29,19 +31,30 @@ a:hover {
   text-decoration: underline;
 }
 
+
 /* Site layout */
+
+/* This is the basic box that the main part of the page goes into */
 .container {
   display: flex;
   flex-direction: column;
   align-self: center;
   background-color: #f6f6ef;
+
+}
+
+.stories-container{
+  height: calc(100vh - 100px);
+  overflow: scroll;
 }
 
 .hidden {
   display: none;
 }
 
+
 /* Forms */
+
 form {
   display: flex;
   flex-direction: column;
@@ -97,7 +110,13 @@ form > hr {
   border: 1px solid lightgray;
 }
 
-/* Responsive queries */
+.login-input label {
+  width: 70px;
+}
+
+
+/* responsive queries for tightening things up for mobile. */
+
 @media screen and (max-width: 576px) {
   body {
     margin: 0;
