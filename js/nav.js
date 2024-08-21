@@ -44,5 +44,22 @@ function navSubmitStoryClick(evt){
 $navSubmit.on("click", navSubmitStoryClick)
 
 
+function navFavoriteClick(evt){
+  console.debug("navFavoritesClick", evt);
+  hidePageComponents()
+
+  // Empties the current stories list and rebuild it with favorites
+  $allStoriesList.empty()
+
+  for (let story of currentUser.favorites) {
+    const $story = generateStoryMarkup(story)
+    $allStoriesList.append($story)
+  }
+
+  $allStoriesList.show()
+}
+$navFavorites.on("click", navFavoriteClick)
+
+
 
 

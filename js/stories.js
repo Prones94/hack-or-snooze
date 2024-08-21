@@ -21,10 +21,15 @@ async function getAndShowStoriesOnStart() {
 
 function generateStoryMarkup(story) {
   console.debug("generateStoryMarkup", story);
-
+  const isFavorite = currentUser.isFavorite(story)
+  const starType = isFavorite ? "fas" : "far" // Sollid star if favorite, otherwise regular star
   const hostName = story.getHostName();
+
   return $(`
       <li id="${story.storyId}">
+        <span class="star">
+          <i class="${starType} fa-star"></i>
+        </span>
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
         </a>
@@ -50,6 +55,27 @@ function putStoriesOnPage() {
 
   $allStoriesList.show();
 }
+
+/** Handle favorite/unfavorite clicks */
+$allStoriesList.on("click", ".star", async function(evt){
+  console.debug("Favorite/unfavorite story");
+
+  // gets story ID from the clicked element's parent <li> tag
+  const $closestLi = $(evt.target).closest("li")
+  const storyId = $closestLi.attr("id")
+
+  // Find the story in the global story list
+  const story = storyList.stories.find(s => s.storyId === storyId)
+
+  // Toggle the favorite status
+  if (currentUser.isFavorite(story)){
+    await currentUser.removeFavorite(story)
+    $(evt.target).removeClass("fas").addClass("far") //  empty star
+  } else {
+    await currentUser.addFavorite(story)
+    $(evt.target).removeClass("far").addClass("fas") // solid star
+  }
+})
 
 
 async function submitNewStory(evt) {
